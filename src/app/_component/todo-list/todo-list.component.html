@@ -1,0 +1,37 @@
+<app-alert></app-alert>
+<h1>Todo List</h1>
+<a href="javascript:void(0)" (click)="openDialog()" class="btn btn-sm btn-primary mb-2">Add Todo</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 30%">Task Name</th>
+            <th style="width: 30%">Status</th>
+            <th style="width: 10%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let todo of todoSer.getAll;let i = index;">
+            <tr [ngStyle]="{'background':'#'+todo.color}" *ngIf="limit > i">
+                <td>{{todo.task_name}}</td>
+                <td>{{todo.task_status}}</td>
+                <td style="white-space: nowrap">
+                    <ng-container *ngIf="!todo.is_completed">
+                        <a href="javascript:void(0)" (click)="addEditTodo(i,todo)" class="btn btn-sm btn-primary mr-1">Edit</a>
+                        <button (click)="deleteTodo(todo.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="todo.isDeleting" [ngStyle]="{'margin-left.px':'10'}">
+                            <span>Delete</span>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="todo.is_completed">
+                        <span class="btn btn-sm btn-success mr-1">Completed</span>
+                    </ng-container>
+                </td>
+            </tr>
+        </ng-container>
+        <button *ngIf="limit < todoSer.getAll.length && !loading" (click)="loadMore()">Load more</button>
+        <tr *ngIf="todoSer.getAll?.length == 0">
+            <td colspan="4" class="text-center">
+                <span>No data found</span>
+            </td>
+        </tr>
+    </tbody>
+</table>

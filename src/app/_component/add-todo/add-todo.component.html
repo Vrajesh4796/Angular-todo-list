@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>{{ data.action == 'add' ? 'Add Task' : 'Edit Task' }}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="addEditTaskForm">
+        <div class="form-row">
+            <div class="form-group col">
+                <label>Task Name</label>
+                <input type="text" formControlName="task_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && valid['task_name'].errors }" />
+                <div *ngIf="submitted && valid['task_name'].errors" class="invalid-feedback">
+                    <div *ngIf="valid['task_name'].errors?.['required']">Task Name is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label>Status</label>
+                <select formControlName="task_status" class="form-control" [ngClass]="{ 'is-invalid': submitted && valid['task_status'].errors }">
+                    <option value="">Select Status</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+                <div *ngIf="submitted && valid['task_status'].errors" class="invalid-feedback">
+                    <div *ngIf="valid['task_status'].errors?.['required']">Status is required</div>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="data.action == 'edit'">
+            <div class="form-row" >
+                <div class="form-group col">
+                    <label>Is Completed</label>
+                    <mat-checkbox formControlName="is_completed" class="example-margin"></mat-checkbox>
+                </div>
+            </div>
+        </ng-container>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-flat-button color="primary" (click)="addEditTodo(addEditTaskForm.value)">{{ data.action == 'add' ? 'Add' : 'Update' }}</button>
+    <button mat-button mat-dialog-close (click)="closeDialog()">Cancel</button>
+</mat-dialog-actions>
